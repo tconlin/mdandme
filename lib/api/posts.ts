@@ -1,11 +1,11 @@
 import PostsDB from "@/lib/db/posts";
 import { Post } from "@/lib/schema";
-import { Firebase } from "@/lib/db/firebaseTypes";
+import type * as firestore from "firebase/firestore";
 import CommentsDB from "@/lib/db/comments";
 
 export interface PaginatePostsResponse {
   data: Post[];
-  lastVisible: Firebase["DocumentReference"];
+  lastVisible: firestore.DocumentReference | null;
 }
 
 export const incrementHug = async (postId: string): Promise<void> => {
@@ -17,7 +17,7 @@ export const getNextPosts = async ({
   lastVisiblePost,
 }: {
   limit: number;
-  lastVisiblePost: Firebase["DocumentReference"] | null;
+  lastVisiblePost: firestore.DocumentReference | null;
 }): Promise<PaginatePostsResponse> => {
   const { data, lastVisible } = await new PostsDB().paginate<Post[]>({
     lastVisible: lastVisiblePost,
