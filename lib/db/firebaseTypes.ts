@@ -7,4 +7,5 @@ export type Firebase = {
   DocumentData: firestore.DocumentData;
   FieldValue: firestore.FieldValue;
   CollectionRef: firestore.CollectionReference;
+  Unsubscribe: firestore.Unsubscribe;
 };

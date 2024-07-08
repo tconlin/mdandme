@@ -11,7 +11,7 @@ import { CircularProgress } from "@/components/circularProgress";
 import { FlashList } from "@shopify/flash-list";
 import { CategoryList } from "@/components/categoryList";
 
-const POST_LIMIT = 50;
+const POST_LIMIT = 10;
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,6 +19,12 @@ export default function HomeScreen() {
   const [posts, setPosts] = useAtom(postsStore);
   const [lastVisible, setLastVisible] = useAtom(lastVisiblePost);
   const [endReached, setEndReached] = useState<boolean>(false);
+
+  useEffect(() => {
+    setPosts([]);
+    setLastVisible(null);
+    fetchPosts();
+  }, []);
 
   async function fetchPosts(reset = false) {
     if (isLoading) return;
@@ -55,13 +61,6 @@ export default function HomeScreen() {
       }
     }
   }
-
-  useEffect(() => {
-    setPosts([]);
-    setLastVisible(null);
-    fetchPosts();
-  }, []);
-
   const renderItem = useCallback(
     ({ item }: { item: Post }) => (
       <View key={item.id} className="mx-4">
@@ -72,7 +71,7 @@ export default function HomeScreen() {
   );
 
   const renderFooter = () => (
-    <View className="my-8">
+    <View className="my-8 flex justify-center items-center">
       {isLoading && <CircularProgress color="dark" />}
       {endReached && !isLoading && <Text>No more posts to show</Text>}
     </View>
@@ -90,7 +89,7 @@ export default function HomeScreen() {
         <CategoryList />
       </View>
       <View className="flex-1 bg-white rounded-t-3xl">
-        <View className="pl-6 pt-4">
+        <View className="pl-6 py-2">
           <Text className="text-xl font-bold">Most Recent Posts</Text>
         </View>
         <FlashList
@@ -102,7 +101,7 @@ export default function HomeScreen() {
           ItemSeparatorComponent={() => <View className="h-1 bg-gray-200" />}
           onEndReached={fetchPosts}
           onEndReachedThreshold={0.5}
-          estimatedItemSize={255} // Provide an estimated item size for better performance
+          estimatedItemSize={255}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

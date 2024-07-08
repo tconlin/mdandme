@@ -8,35 +8,21 @@ import {
   getDocs,
   startAfter,
   limit,
+  getDoc,
 } from "firebase/firestore";
 import type * as firestore from "firebase/firestore";
 import { nanoid } from "nanoid/non-secure";
 import { ZodSchema } from "zod";
 import { ShowAlert } from "@/components/alert";
+import { isNil } from "lodash";
 
 interface BaseEntity {
   id?: string;
 }
 
-type FirestoreQueryOperator =
-  | "=="
-  | "!="
-  | ">"
-  | "<"
-  | ">="
-  | "<="
-  | "array-contains"
-  | "array-contains-any"
-  | "in"
-  | "not-in";
-
 type WithTimestamps<T> = T & {
   id: string;
   createdTimestamp: firestore.Timestamp;
-  updatedTimestamp: firestore.Timestamp;
-};
-
-type WithUpdateTimestamps<T> = T & {
   updatedTimestamp: firestore.Timestamp;
 };
 
@@ -105,10 +91,6 @@ export default class GenericDB<
     };
   }
 
-  /**
-   * Execute a query with optional pagination parameters
-   */
-
   async paginate<T>({
     lastVisible,
     responseLimit,
@@ -142,87 +124,19 @@ export default class GenericDB<
   }
 
   /**
-   * Read a document in the collection based on single query
-   * @param id
-   */
-  // async singleQuery<T>({
-  //   field,
-  //   operator,
-  //   value,
-  // }: {
-  //   field: string;
-  //   operator: FirestoreQueryOperator;
-  //   value: string;
-  // }): Promise<T[]> {
-  //   const docSnap = await this.collectionRef
-  //     .where(field, operator, value)
-  //     .get();
-
-  //   return docSnap.docs.map((doc) => {
-  //     const data = doc.data();
-  //     this.convertObjectTimestampPropertiesToDate(data);
-  //     return {
-  //       id: doc.id,
-  //       ...data,
-  //     } as T;
-  //   });
-  // }
-
-  /**
    * Read a document in the collection
    * @param id
    */
-  // async read<T>({ id }: { id: string }): Promise<T | null> {
-  //   const docSnap = await this.collectionRef.doc(id).get();
-  //   const docExists = docSnap.exists;
+  async read<T>({ id }: { id: string }): Promise<T | null> {
+    const docSnap = await getDoc(doc(this.collectionRef, id));
 
-  //   const data = docExists ? docSnap.data() : null;
+    const data = docSnap.exists() ? docSnap.data() : null;
 
-  //   if (isNil(data)) return null;
+    if (isNil(data)) return null;
 
-  //   this.convertObjectTimestampPropertiesToDate(data);
-  //   return { id, ...data } as T;
-  // }
-
-  /**
-   * Update a document in the collection
-   * @param data
-   */
-  // async update<T>({
-  //   data,
-  //   schema,
-  // }: {
-  //   data: unknown;
-  //   schema: ZodSchema;
-  // }): Promise<T> {
-  //   const parsedDataToUpdate = schema.safeParse(data);
-  //   if (!parsedDataToUpdate.success) {
-  //     console.warn(JSON.stringify(parsedDataToUpdate.error.errors, null, 4));
-  //     ShowAlert({
-  //       message: `Could not complete request. Please try again later`,
-  //       type: "danger",
-  //     });
-  //     throw new Error("Could not complete request");
-  //   }
-  //   const cloneData = cloneDeep(parsedDataToUpdate.data);
-  //   const id = cloneData.id;
-  //   const updateData: WithUpdateTimestamps<T> = {
-  //     ...cloneData,
-  //     updatedTimestamp: getServerTimestamp(),
-  //   };
-
-  //   await this.collectionRef.doc(id).set(updateData as any, { merge: true });
-
-  //   return parsedDataToUpdate.data;
-  // }
-
-  /**
-   * Delete a document in the collection
-   * @param id
-   */
-  // async delete({ id }: { id: string }): Promise<void> {
-  //   return await collection.doc(id).delete();
-  // }
+    this.convertObjectTimestampPropertiesToDate(data);
+    return { id, ...data } as T;
+  }
 
   /**
    * Convert all object Timestamp properties to Date

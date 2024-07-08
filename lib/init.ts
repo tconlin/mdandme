@@ -5,7 +5,6 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import type * as firestore from "firebase/firestore";
-import firebase from "firebase/app";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries

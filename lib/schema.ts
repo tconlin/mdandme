@@ -10,6 +10,7 @@ export interface Comment {
 export interface Post {
   id: string;
   post_url: string;
+  commentCount: number | undefined;
   title: string;
   created_at: string;
   num_hugs: number;
@@ -17,4 +18,9 @@ export interface Post {
   assessment: string;
   question: string;
   comments: { [key: string]: Comment };
+}
+
+export interface CommentCount {
+  post_id: string;
+  count: number;
 }
