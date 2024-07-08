@@ -21,14 +21,12 @@ interface BaseEntity {
 
 type WithTimestamps<T> = T & {
   id: string;
-  createdTimestamp: firestore.Timestamp;
-  updatedTimestamp: firestore.Timestamp;
+  created_at: firestore.Timestamp;
 };
 
 export type CreateResponse<T> = T & {
   id: string;
-  createdTimestamp: Date;
-  updatedTimestamp: Date;
+  created_at: Date;
 };
 
 export default class GenericDB<
@@ -70,8 +68,7 @@ export default class GenericDB<
 
     const dataToSave: WithTimestamps<T> = {
       ...parsedDataToCreate.data,
-      createdTimestamp: getServerTimestamp(),
-      updatedTimestamp: getServerTimestamp(),
+      created_at: getServerTimestamp(),
     };
 
     await setDoc(doc(getDb, this.collectionRef.path, uid), dataToSave, {
@@ -81,8 +78,7 @@ export default class GenericDB<
     return {
       id: uid,
       ...data,
-      createdTimestamp: new Date(),
-      updatedTimestamp: new Date(),
+      created_at: new Date(),
     };
   }
 
