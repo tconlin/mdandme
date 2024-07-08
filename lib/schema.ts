@@ -1,5 +1,6 @@
 export interface Comment {
-  id: number;
+  id: string;
+  post_id: string;
   parent_id: number | null;
   display_name: string;
   text: string;
@@ -7,6 +8,7 @@ export interface Comment {
 }
 
 export interface Post {
+  id: string;
   post_url: string;
   title: string;
   created_at: string;

@@ -9,8 +9,9 @@ let exports: Firebase;
 // if not, we fall back to firebase JS
 
 if (isExpoGo) {
-  exports = require("./init.web");
+  exports = require("./init");
 } else {
+  // does not exist
   exports = require("./init.native");
 }
 

@@ -2,7 +2,8 @@
 import { z } from "zod";
 
 export const commentSchema = z.object({
-  id: z.number(),
+  id: z.string(),
+  post_id: z.string(),
   parent_id: z.number().nullable(),
   display_name: z.string(),
   text: z.string(),
@@ -10,6 +11,7 @@ export const commentSchema = z.object({
 });
 
 export const postSchema = z.object({
+  id: z.string(),
   post_url: z.string(),
   title: z.string(),
   created_at: z.string(),

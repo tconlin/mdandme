@@ -7,7 +7,10 @@ import "react-native-reanimated";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { COLORS } from "@/constants/colors";
+import Header from "@/components/header";
+
+const logo = require("@/assets/images/logo.png");
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -28,23 +31,17 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView className="flex-1">
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
+          className="flex-1"
         >
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              backgroundColor: COLORS.brown["200"],
-            }}
-          >
+          <View className="flex-1">
             <Stack
               initialRouteName="index"
-              screenOptions={() => ({
-                headerShown: false,
-              })}
+              screenOptions={{
+                header: (props) => <Header {...props} logo={logo} />,
+              }}
             >
               <Stack.Screen name="index" />
             </Stack>
