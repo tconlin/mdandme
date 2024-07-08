@@ -4,7 +4,6 @@ import { useAtom } from "jotai";
 import { postsStore } from "@/store/posts";
 import { getNextPosts } from "@/lib/api/posts";
 import { lastVisiblePost } from "@/store/posts";
-import { ShowAlert } from "@/components/alert";
 import { Post } from "@/lib/schema";
 import PostContainer from "@/components/post";
 import { CircularProgress } from "@/components/circularProgress";
@@ -50,10 +49,6 @@ export default function HomeScreen() {
       }
     } catch (error) {
       console.warn("fetchPosts error", error);
-      ShowAlert({
-        type: "danger",
-        message: "Could not fetch posts. Please try again later.",
-      });
     } finally {
       setIsLoading(false);
       if (reset) {

@@ -13,7 +13,6 @@ import {
 import type * as firestore from "firebase/firestore";
 import { nanoid } from "nanoid/non-secure";
 import { ZodSchema } from "zod";
-import { ShowAlert } from "@/components/alert";
 import { isNil } from "lodash";
 
 interface BaseEntity {
@@ -66,10 +65,6 @@ export default class GenericDB<
 
     if (!parsedDataToCreate.success) {
       console.warn(JSON.stringify(parsedDataToCreate.error.errors, null, 4));
-      ShowAlert({
-        message: `Could not complete request. Please try again later`,
-        type: "danger",
-      });
       throw new Error("Could not complete request");
     }
 
