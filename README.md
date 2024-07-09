@@ -18,4 +18,4 @@ Before installing and running the app, you must have a iOS simulator installed o
     npm run start
    ```
 
-3. Follow the instructions in your terminal, press 'i' to run in iphone simulator with expoGo
+3. Follow the instructions in your terminal, press `i` to run in iphone simulator with expoGo
