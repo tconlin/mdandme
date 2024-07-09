@@ -21,7 +21,10 @@ Before installing and running the app, you must have a iOS simulator installed o
 
 3. Follow the instructions in your terminal, press `i` to run in iphone simulator with expoGo
 
+
 ## Screenshots
+
+![Simulator Screenshot - iPhone 15 Pro Max - 2024-07-09 at 16 32 39](https://github.com/tconlin/mdandme/assets/18521680/f54fdf64-b627-4860-8814-3118be8ed606)
 
 ![Simulator Screenshot - iPhone 15 Pro Max - 2024-07-09 at 16 32 48](https://github.com/tconlin/mdandme/assets/18521680/cbdffef2-f251-4097-ac46-4e2d63f6d7d2)
 ![Simulator Screenshot - iPhone 15 Pro Max - 2024-07-09 at 16 32 44](https://github.com/tconlin/mdandme/assets/18521680/cf205097-936a-4288-afee-d590a16ba7a8)
