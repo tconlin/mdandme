@@ -6,6 +6,8 @@ import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 export function SearchBox({ placeholder, ...props }: { placeholder: string }) {
   const [inputValue, setInputValue] = useState("");
 
+  //TODO: Add search functionality
+
   return (
     <View className="my-2 flex-row justify-center align-middle items-center border border-gray-200 h-12 w-full rounded-full py-2">
       <MagnifyingGlassIcon width={18} height={18} color={COLORS.gray["200"]} />

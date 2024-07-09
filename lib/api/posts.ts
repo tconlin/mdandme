@@ -1,15 +1,27 @@
 import PostsDB from "@/lib/db/posts";
 import { Post } from "@/lib/schema";
 import type * as firestore from "firebase/firestore";
-import CommentsDB from "@/lib/db/comments";
+import { getPostCommentCount } from "@/lib/api/comments";
 
 export interface PaginatePostsResponse {
   data: Post[];
   lastVisible: firestore.DocumentReference | null;
 }
 
-export const incrementHug = async (postId: string): Promise<void> => {
+export const executeHug = async ({
+  postId,
+}: {
+  postId: string;
+}): Promise<void> => {
   await new PostsDB().incrementHug(postId);
+};
+
+export const getPost = async ({
+  postId,
+}: {
+  postId: string;
+}): Promise<Post | null> => {
+  return await new PostsDB().read<Post>({ id: postId });
 };
 
 export const getNextPosts = async ({
@@ -24,10 +36,12 @@ export const getNextPosts = async ({
     responseLimit: limit,
   });
 
-  data.forEach(async (post: Post) => {
-    const count = await new CommentsDB().getCommentsCount(post.id);
-    post.commentCount = count;
-  });
+  await Promise.all(
+    data.map(async (post: Post) => {
+      const count = await getPostCommentCount({ postId: post.id });
+      post.commentCount = count;
+    })
+  );
 
   return { data, lastVisible };
 };

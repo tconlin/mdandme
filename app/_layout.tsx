@@ -7,7 +7,6 @@ import "react-native-reanimated";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Header from "@/components/header";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -18,9 +17,6 @@ import AddCommentScreen from "@/app/addComment";
 import { useSetAtom } from "jotai";
 import { bottomSheetRef } from "@/store/app";
 
-const logo = require("@/assets/images/logo.png");
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -29,7 +25,7 @@ export default function RootLayout() {
   });
   const setBottomSheetRef = useSetAtom(bottomSheetRef);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const bottomSheetSnapPoint = useMemo(() => ["75%"], []);
+  const bottomSheetSnapPoint = useMemo(() => ["37%"], []);
 
   useEffect(() => {
     setBottomSheetRef(bottomSheetModalRef.current);
@@ -71,7 +67,7 @@ export default function RootLayout() {
               <Stack
                 initialRouteName="index"
                 screenOptions={{
-                  header: (props) => <Header {...props} logo={logo} />,
+                  headerShown: false,
                 }}
               >
                 <Stack.Screen name="index" />

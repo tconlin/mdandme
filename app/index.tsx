@@ -9,8 +9,9 @@ import PostContainer from "@/components/post";
 import { CircularProgress } from "@/components/circularProgress";
 import { FlashList } from "@shopify/flash-list";
 import { CategoryList } from "@/components/categoryList";
+import SearchCreateHeader from "@/components/headers/searchCreate";
 
-const POST_LIMIT = 10;
+const POST_LIMIT = 25;
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -56,7 +57,7 @@ export default function HomeScreen() {
       }
     }
   }
-  const renderItem = useCallback(
+  const renderPost = useCallback(
     ({ item }: { item: Post }) => (
       <View key={item.id} className="mx-4">
         <PostContainer post={item} />
@@ -79,7 +80,8 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View className="flex-1 bg-blue-400">
+    <View className="flex-1 bg-blue-700">
+      <SearchCreateHeader />
       <View className="my-4">
         <CategoryList />
       </View>
@@ -90,7 +92,7 @@ export default function HomeScreen() {
         <FlashList
           data={posts}
           contentInsetAdjustmentBehavior="always"
-          renderItem={renderItem}
+          renderItem={renderPost}
           keyExtractor={(item) => item.id}
           ListFooterComponent={renderFooter}
           ItemSeparatorComponent={() => <View className="h-1 bg-gray-200" />}

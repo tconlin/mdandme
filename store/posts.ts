@@ -4,3 +4,4 @@ import type * as firestore from "firebase/firestore";
 
 export const postsStore = atom<Post[]>([]);
 export const lastVisiblePost = atom<firestore.DocumentReference | null>(null);
+export const currentPostId = atom<string | null>(null);

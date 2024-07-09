@@ -29,6 +29,15 @@ export type CreateResponse<T> = T & {
   created_at: Date;
 };
 
+/**
+ * Generic Database class
+ * @param T - The type of the document
+ * @param collectionPath - The path to the collection
+ * @returns GenericDB instance
+ * @example
+ * const db = new GenericDB<Post>("posts");
+ * const post = await db.read<Post>({ id: "123" });
+ */
 export default class GenericDB<
   T extends firestore.DocumentData = firestore.DocumentData,
 > {
@@ -82,6 +91,12 @@ export default class GenericDB<
     };
   }
 
+  /**
+   * Paginate through the collection
+   * @param lastVisible - Firestore Document Reference
+   * @param responseLimit - Number of documents to return
+   * @returns Paginated data and last visible document
+   */
   async paginate<T>({
     lastVisible,
     responseLimit,
@@ -116,17 +131,17 @@ export default class GenericDB<
 
   /**
    * Read a document in the collection
-   * @param id
+   * @param id - The document ID
+   * @returns The document
    */
   async read<T>({ id }: { id: string }): Promise<T | null> {
     const docSnap = await getDoc(doc(this.collectionRef, id));
-
     const data = docSnap.exists() ? docSnap.data() : null;
 
     if (isNil(data)) return null;
 
-    this.convertObjectTimestampPropertiesToDate(data);
-    return { id, ...data } as T;
+    const convertedData = this.convertObjectTimestampPropertiesToDate(data);
+    return { id, ...convertedData } as T;
   }
 
   /**

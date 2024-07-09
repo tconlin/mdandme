@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { timeAgo } from "@/utils/helpers";
 import { HugComponent } from "@/components/post/hug";
 
-const PostContainer = ({ post }: { post: Post }) => {
+export const PostCard = ({ post }: { post: Post }) => {
   const router = useRouter();
 
   return (
@@ -39,5 +39,3 @@ const PostContainer = ({ post }: { post: Post }) => {
     </TouchableOpacity>
   );
 };
-
-export default PostContainer;

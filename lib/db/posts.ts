@@ -8,6 +8,11 @@ export default class PostsDB extends GenericDB<Post> {
     super("posts");
   }
 
+  /**
+   * Increment the number of hugs on a post
+   * @param postId - The ID of the post
+   * @returns void
+   */
   async incrementHug(postId: string): Promise<void> {
     const postRef = doc(getDb, this.collectionRef.path, postId);
     await updateDoc(postRef, {

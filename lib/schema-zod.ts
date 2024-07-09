@@ -13,6 +13,7 @@ export const commentSchema = z.object({
 export const postSchema = z.object({
   id: z.string(),
   post_url: z.string(),
+  commentCount: z.union([z.number(), z.undefined()]),
   title: z.string(),
   created_at: z.string(),
   num_hugs: z.number(),
@@ -20,4 +21,9 @@ export const postSchema = z.object({
   assessment: z.string(),
   question: z.string(),
   comments: z.record(commentSchema),
+});
+
+export const commentCountSchema = z.object({
+  post_id: z.string(),
+  count: z.number(),
 });
